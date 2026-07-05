@@ -37,6 +37,7 @@ Extend from squat to full thruster
 
 ## Repository Structure
 
+```text
 h1-thrusters/
 │
 ├── data/           # Motion capture data and processed motion files
@@ -47,7 +48,7 @@ h1-thrusters/
 │
 ├── requirements.txt
 └── README.md
-
+```
 ## Planned Work
 
 ### Phase 1: Squat Motion
