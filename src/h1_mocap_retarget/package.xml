@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>h1_mocap_retarget</name>
+  <version>0.0.0</version>
+  <description>Retargets Vicon mocap joint-angle trials onto the Unitree H1_2 (handless) model for Rviz playback</description>
+  <maintainer email="sevdebogazkesen@gmail.com">Pretty Sevde</maintainer>
+  <license>Apache-2.0</license>
+
+  <depend>ros_gz_h1_description</depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <!-- Not rosdep-resolvable, so not declared as exec_depend -- install with
+       `pip install mujoco mink --break-system-packages` in the same Python
+       environment ROS2 uses. Only required when use_mink:=true (default);
+       set use_mink:=false to run without them. -->
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
