@@ -1,29 +1,74 @@
-# Locomotion and Whole-Body Control
+# h1-mocap-retargeting
+# H1 Thrusters
 
-## Basics for bringing up the container
+Motion-capture-based simulation and control of a thruster movement on the Unitree H1 humanoid robot.
 
-We assume the underlying system to be an Ubuntu.
-Other Linux distributions should work with minor modifications (i.e. when choosing installation files/commands in 1 and 2).
-Windows and OSX are currently untested/not supported, if you want to use those, you will have to see how to make this setup work on your own.
+## Overview
 
-1. You need Visual Studio Code (that is not the community edition, see 2): https://code.visualstudio.com/
-2. Install Docker Engine (not Docker Desktop): https://docs.docker.com/engine/install/ubuntu/. Reboot afterwards.
-3. Open the provided folder in vscode. It should prompt you to install the "Dev Container" extension, if not, do so manually.
-4. You should get prompted to "Reopen in Dev Container in the bottom right corner of vscode. Otherwise, press Ctrl+Shift+P and type "Reopen in Container" into the prompt.
-5. You will get a terminal at the bottom that should provide a shell inside your devcontainer.
+This project focuses on making the Unitree H1 perform a **thruster** movement in simulation.
 
-## Basics inside the container
+A thruster combines:
 
-After starting the devcontainer, you might need to source the generated bashrc via
+* Squat
+* Overhead press
 
-    source install/setup.bash
+## Project Goal
 
-This provides you with tab-completion for ROS commands, which is quite convenient.
-The package we use for H1 simulation is https://github.com/K-d4wg/ros2_heinz, the code of which we already included in the container.
-If you want to star it on GitHub, you are nevertheless invited to do so!
+The goal is to retarget human motion capture data to the H1 robot, simulate the motion in MuJoCo, and improve its feasibility using stability analysis and optimal control.
 
-If you want to launch the setup for the first exercise, for example, that command would be
+## Pipeline
 
-    ros2 launch sheet_1 exercise_1.launch.py
+Motion capture data
+        ↓
+Retarget motion to H1 kinematics
+        ↓
+Visualize retargeted motion
+        ↓
+Clean and check motion feasibility
+        ↓
+Analyze stability using CoM / support polygon / ZMP
+        ↓
+Simulate in MuJoCo
+        ↓
+Improve motion using optimal control
+        ↓
+Extend from squat to full thruster
 
-And with that, we wish you good luck with your endeavours in ROS2 and great success diving into the depth of practical robotics.
+
+## Repository Structure
+
+```text
+h1-thrusters/
+│
+├── data/           # Motion capture data and processed motion files
+├── models/         # Unitree H1 model files
+├── scripts/        # Python scripts for processing, simulation, and analysis
+├── results/        # Generated plots, videos, motions, and reports
+├── docs/           # Project notes and documentation
+│
+├── requirements.txt
+└── README.md
+```
+## Planned Work
+
+### Phase 1: Squat Motion
+
+* Collect motion capture data
+* Retarget squat motion to H1 kinematics
+* Visualize the retargeted motion
+* Clean the motion and check feasibility
+* Analyze stability using CoM, support polygon, and ZMP
+* Simulate the retargeted motion in MuJoCo
+* Apply optimal control between selected keyframes
+
+### Phase 2: Full Thruster Motion
+
+* Add the overhead press
+* Include dumbbell or barbell interaction
+* Repeat stability and feasibility analysis
+* Improve the full motion using optimal control
+
+## Contributors
+
+* Rokaia Ibrahem
+* Till Laube
