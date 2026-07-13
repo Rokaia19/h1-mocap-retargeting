@@ -18,8 +18,9 @@
 
   <!-- Not rosdep-resolvable, so not declared as exec_depend -- install with
        `pip install mujoco mink --break-system-packages` in the same Python
-       environment ROS2 uses. Only required when use_mink:=true (default);
-       set use_mink:=false to run without them. -->
+       environment ROS2 uses. Required for the `retarget_mink` console script,
+       and for retarget_node's use_mink:=true (default); set use_mink:=false
+       to run retarget_node without them. -->
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

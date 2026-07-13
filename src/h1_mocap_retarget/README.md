@@ -26,7 +26,7 @@ to be ruled out while debugging.
 Two solvers are available for that pelvis IK:
 
 - `use_mink:=true` (**default**) -- Mink's QP-based differential IK, same
-  method used in `mujoco_retarget/retarget_mink.py`. More accurate
+  method used in `retarget_mink.py` (see below). More accurate
   (worst-case foot error 0.087 vs the old solver's 0.16). Requires
   `pip install mujoco mink --break-system-packages` in the ROS2 Python
   environment.
@@ -67,11 +67,57 @@ error still correlates strongly with knee angle (0.86) even before clipping
 kicks in, so the residual isn't purely the plateau frames. Not a solver tuning
 issue.
 
-**Fixed:** `fps` defaulted to 100.0 here and in `mujoco_retarget`, but the
-`.c3d` files' actual `ROTATION:RATE` is **60 Hz** -- playback was running
-~1.67x too fast. The default is now 60.0 in both pipelines; override with
+**Fixed:** `fps` defaulted to 100.0 both here and in `retarget_mink.py`, but
+the `.c3d` files' actual `ROTATION:RATE` is **60 Hz** -- playback was running
+~1.67x too fast. The default is now 60.0 in both paths; override with
 `fps:=<value>` only if a different trial turns out to have a different
 rate.
+
+## Standalone MuJoCo/Mink viewer (`retarget_mink`)
+
+A second way to see the same retargeted motion, without Rviz or a ROS2
+graph -- opens a MuJoCo viewer directly on this package's own MJCF model.
+Uses the same already-validated joint-angle mapping as `retarget_node`
+(`retarget_core`'s `RETARGET_MAP`) and the same Mink pelvis solver as
+`use_mink:=true` above; only the rendering path differs.
+
+    pip install mujoco mink --break-system-packages
+    ros2 run h1_mocap_retarget retarget_mink --trial bar_01
+    ros2 run h1_mocap_retarget retarget_mink --trial dumbells_01 --rate 0.5 --legs_only false
+
+Save an MP4 instead of (or alongside) opening the live viewer:
+
+    pip install imageio imageio-ffmpeg --break-system-packages
+    ros2 run h1_mocap_retarget retarget_mink --trial bar_01 --save_video demo_bar_01.mp4
+
+### The MuJoCo model (`model/h1_2_handless.xml`)
+
+Converted from `../ros_gz_h1_description/models/h1_ign/h1_2_handless.urdf` by
+`scripts/convert_urdf_to_mjcf.py`. Two fixes were needed beyond a plain
+import:
+
+1. The URDF's mesh paths use ROS `package://` URIs, which MuJoCo doesn't
+   resolve -- rewritten to bare filenames (the URDF already had a
+   `<mujoco><compiler meshdir="meshes"/>` block prepared by the original
+   authors for exactly this conversion, marked "uncomment when convert to
+   mujoco").
+2. MuJoCo's URDF importer welds the root body (pelvis) rigidly to the world
+   by default -- URDF's `floating_base_joint` (type="floating") isn't
+   recognized by it. A freejoint was added explicitly to the pelvis body.
+
+Verified: with the freejoint added, forward kinematics from this MJCF model
+matched the hand-written FK in `retarget_core.leg_forward_kinematics` to
+~1e-16 (floating point noise) across several random joint-angle test cases.
+
+`model/h1_kinematics_only.xml` (used by `mink_pelvis.py` for the
+`retarget_node` pelvis solve) is the same model with all geoms/lights/meshes
+stripped out via `scripts/make_kinematics_only_model.py` -- Mink's
+`FrameTask` only reads joint-tree kinematics, never geometry, so the ~90 STL
+meshes are only needed for *rendering*, not solving. Re-run both scripts (in
+that order) if the source URDF ever changes:
+
+    python3 scripts/convert_urdf_to_mjcf.py
+    python3 scripts/make_kinematics_only_model.py
 
 ## Fixing a joint that moves the wrong way
 

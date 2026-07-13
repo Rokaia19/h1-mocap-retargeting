@@ -15,17 +15,20 @@ Verified: FK from this stripped model matches the full mesh model to 0.0
 (exact) across randomized joint configurations -- see mink_pelvis.py's
 docstring for the same claim in the ROS2 package's copy.
 
+Dev-time tool: run from a source checkout (from the h1_mocap_retarget package
+root), not installed via colcon.
+
 Usage:
-    python3 convert_urdf_to_mjcf.py       # regenerates model/h1_2_handless.xml first
-    python3 make_kinematics_only_model.py # then strip it down
+    python3 scripts/convert_urdf_to_mjcf.py       # regenerates model/h1_2_handless.xml first
+    python3 scripts/make_kinematics_only_model.py # then strip it down
 """
 import os
 
 import mujoco
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-IN_XML = os.path.join(HERE, 'model', 'h1_2_handless.xml')
-OUT_XML = os.path.join(HERE, 'model', 'h1_kinematics_only.xml')
+IN_XML = os.path.join(HERE, '..', 'model', 'h1_2_handless.xml')
+OUT_XML = os.path.join(HERE, '..', 'model', 'h1_kinematics_only.xml')
 
 
 def main():

@@ -2,7 +2,7 @@
 """
 Foot-locked pelvis solving via Mink (differential IK / QP), reused here so
 the ROS2/Rviz pipeline can play back the same, more accurate pelvis motion
-already validated in mujoco_retarget/retarget_mink.py (worst-case foot error
+already validated in retarget_mink.py (worst-case foot error
 0.087 vs the older hand-rolled Levenberg-Marquardt solver's 0.16).
 
 Uses model/h1_kinematics_only.xml -- a copy of the full MJCF H1_2 model with

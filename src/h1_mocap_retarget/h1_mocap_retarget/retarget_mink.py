@@ -9,14 +9,14 @@ RETARGET_MAP, including the hip_pitch/knee/ankle_pitch sign fixes worked out
 via forward-kinematics checks against the URDF earlier) -- only the
 pelvis-solving method changed, not the human->H1 angle correspondence.
 
-Usage:
+Usage (no ROS2 node/graph needed, just the installed package):
     pip install mujoco mink --break-system-packages
-    python3 retarget_mink.py --trial bar_01
-    python3 retarget_mink.py --trial dumbells_01 --rate 0.5 --legs_only false
+    ros2 run h1_mocap_retarget retarget_mink --trial bar_01
+    ros2 run h1_mocap_retarget retarget_mink --trial dumbells_01 --rate 0.5 --legs_only false
 
     Save an MP4 instead of (or alongside) opening the live viewer:
     pip install imageio imageio-ffmpeg --break-system-packages
-    python3 retarget_mink.py --trial bar_01 --save_video demo_bar_01.mp4
+    ros2 run h1_mocap_retarget retarget_mink --trial bar_01 --save_video demo_bar_01.mp4
 """
 import argparse
 import os
@@ -26,12 +26,14 @@ import mujoco
 import mujoco.viewer
 import mink
 import numpy as np
+from ament_index_python.packages import get_package_share_directory
 
-from retarget_core import parse_vicon_model_output, retarget_trial, ARM_JOINTS, H1_JOINT_ORDER
+from h1_mocap_retarget.retarget_core import (
+    parse_vicon_model_output, retarget_trial, ARM_JOINTS, H1_JOINT_ORDER)
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(HERE, 'model', 'h1_2_handless.xml')
-CSV_PATH = os.path.join(HERE, 'data', 'JointAngles.txt')
+_SHARE = get_package_share_directory('h1_mocap_retarget')
+MODEL_PATH = os.path.join(_SHARE, 'model', 'h1_2_handless.xml')
+CSV_PATH = os.path.join(_SHARE, 'data', 'JointAngles.txt')
 
 _FOOT_BODIES = {'left': 'left_ankle_roll_link', 'right': 'right_ankle_roll_link'}
 

@@ -15,7 +15,8 @@ setup(
         (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
         (os.path.join('share', package_name, 'data'), glob('data/*')),
         (os.path.join('share', package_name, 'config'), glob('config/*')),
-        (os.path.join('share', package_name, 'model'), glob('model/*')),
+        (os.path.join('share', package_name, 'model'), glob('model/*.xml')),
+        (os.path.join('share', package_name, 'model', 'meshes'), glob('model/meshes/*.STL')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -27,6 +28,7 @@ setup(
     entry_points={
         'console_scripts': [
             'retarget_node = h1_mocap_retarget.retarget_node:main',
+            'retarget_mink = h1_mocap_retarget.retarget_mink:main',
         ],
     },
 )

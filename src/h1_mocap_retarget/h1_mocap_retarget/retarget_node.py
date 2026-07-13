@@ -29,7 +29,7 @@ use_root_motion : bool
     freely underneath it. Disable to fall back to a fixed pelvis.
 use_mink : bool
     Solve the foot-locked pelvis IK with Mink (QP-based differential IK,
-    same method validated in mujoco_retarget/retarget_mink.py, worst-case
+    same method validated in retarget_mink.py, worst-case
     foot error 0.087) instead of the original hand-rolled Levenberg-Marquardt
     solver in retarget_core (worst-case foot error 0.16). Requires
     `pip install mujoco mink --break-system-packages` in the ROS2 Python

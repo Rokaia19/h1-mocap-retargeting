@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
 One-time conversion: ros_gz_h1_description's h1_2_handless.urdf -> a standalone
-MuJoCo MJCF model, for use with Mink-based retargeting (mujoco_retarget/retarget_mink.py).
+MuJoCo MJCF model, for use with Mink-based retargeting (h1_mocap_retarget/retarget_mink.py).
+
+Dev-time tool: run from a source checkout (`python3 scripts/convert_urdf_to_mjcf.py`
+from the h1_mocap_retarget package root), not installed via colcon. Regenerates
+model/h1_2_handless.xml from ../ros_gz_h1_description's URDF.
 
 Two fixes were needed beyond a plain `mujoco.MjSpec.from_file()`:
 1. The URDF's mesh <geometry> tags use ROS `package://ros_gz_h1_description/...`
@@ -22,9 +26,9 @@ import mujoco
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC_URDF = os.path.join(
-    HERE, '..', 'src', 'ros_gz_h1_description', 'models', 'h1_ign', 'h1_2_handless.urdf')
-SRC_MESHES = os.path.join(HERE, '..', 'src', 'ros_gz_h1_description', 'models', 'h1_ign', 'meshes')
-OUT_DIR = os.path.join(HERE, 'model')
+    HERE, '..', '..', 'ros_gz_h1_description', 'models', 'h1_ign', 'h1_2_handless.urdf')
+SRC_MESHES = os.path.join(HERE, '..', '..', 'ros_gz_h1_description', 'models', 'h1_ign', 'meshes')
+OUT_DIR = os.path.join(HERE, '..', 'model')
 OUT_XML = os.path.join(OUT_DIR, 'h1_2_handless.xml')
 OUT_MESHES = os.path.join(OUT_DIR, 'meshes')
 
