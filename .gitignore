@@ -2,8 +2,8 @@
 install/
 log/
 
-# scratch file written by h1_mocap_retarget/scripts/convert_urdf_to_mjcf.py
-src/h1_mocap_retarget/model/_tmp_fixed.urdf
+# scratch file written by scripts/convert_urdf_to_mjcf.py
+model/_tmp_fixed.urdf
 
 # macOS
 .DS_Store
