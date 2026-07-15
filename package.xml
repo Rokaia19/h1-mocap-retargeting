@@ -16,8 +16,8 @@
   <exec_depend>rviz2</exec_depend>
   <exec_depend>python3-numpy</exec_depend>
 
-  <!-- Not rosdep-resolvable, so not declared as exec_depend -- install with
-       `pip install mujoco mink --break-system-packages` in the same Python
+  <!-- Not rosdep-resolvable, so not declared as exec_depend; install with
+       `pip install mujoco mink` (pass the break-system-packages flag on PEP 668 systems) in the same Python
        environment ROS2 uses. Required for the `retarget_mink` console script,
        and for retarget_node's use_mink:=true (default); set use_mink:=false
        to run retarget_node without them. -->
